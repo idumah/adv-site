@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Избранное</h1>
+{% if news %}
+{% for item in news%}
+<div class="col-md6 border rounded">
+    <h3>{{item.title}}</h3>
+    <div>
+        <h5>{{item.content}}</h5>
+    </div>
+    <div>
+        Автор - {{item.user.name}}
+    </div>
+    <div>
+        Почта - {{item.user.email}}
+    </div>
+    <div>
+        Дата написания - {{item.created_date}}
+    </div>
+    {% if current_user.is_authenticated %}
+        <a href="/delete_favourite_post/{{ item.id }}" class="btn btn-danger">
+            Удалить из избранного
+        </a>
+{% endif %}
+</div>
+{% endfor %}
+{% else %}
+<h5>Вы еще не добавили в избранное ни одного объявления</h5>
+{% endif %}
+{% endblock %}

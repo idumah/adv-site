@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Избранное</h1>
+{% for item in news%}
+<div> {{ item }} </div>
+{% endfor %}
+{% endblock %}

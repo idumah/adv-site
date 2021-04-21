@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+{% if current_user.is_authenticated %}
+    <ul class="hr"><div><h1>Все объявления</h1><a href="news" class="btn btn-secondary">Добавить объявление</a></div></ul>
+{% else %}
+    <h1>Все объявления</h1>
+{% endif %}
+{% for item in news%}
+<div class="col-md6 border rounded">
+    <h3>{{item.title}}</h3>
+    <div>
+        <h5>{{item.content}}</h5>
+    </div>
+    <div>
+        Автор -
+        <a href="/profile/{{ item.user.id }}">
+            {{item.user.name}}
+        </a>
+    </div>
+    <div>
+        Почта - {{item.user.email}}
+    </div>
+    <div>
+        Дата написания - {{item.created_date}}
+    </div>
+    {% if current_user.is_authenticated %}
+    {% if not item.id in favs %}
+        <a href="/add_favourite_post/{{ item.id }}" class="btn btn-success">
+            Добавить в избранное
+        </a>
+    {% else %}
+    <a href="/favourites" class="btn btn-outline-success">
+            Объявление в избранном
+        </a>
+    {% endif %}
+{% endif %}
+
+    {% if current_user.is_authenticated and current_user == item.user %}
+    <div>
+        <a href="/news/{{ item.id }}" class="btn btn-warning">
+            Изменить
+        </a>
+        <a href="/news_delete/{{ item.id }}" class="btn btn-danger">
+            Удалить
+        </a>
+    </div>
+{% endif %}
+</div>
+{% endfor %}
+{% endblock %}
